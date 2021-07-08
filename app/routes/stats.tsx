@@ -1,6 +1,5 @@
 import type { MetaFunction, LoaderFunction } from "remix";
 import { useRouteData } from "remix";
-import { format, parse } from "fecha";
 
 import sanity from "../lib/sanity";
 import Container from "../components/container";
@@ -19,6 +18,7 @@ export let loader: LoaderFunction = async () => {
     "id": _id,
     slug,
     title,
+    published,
   }[0...50]`);
 
   return { posts };
