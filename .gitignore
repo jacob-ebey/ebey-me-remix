@@ -2,6 +2,7 @@ node_modules
 
 /.cache
 /api/build
+/app/styles/tailwind.css
 /public/build
 
 .env
