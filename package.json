@@ -8,7 +8,7 @@
     "build": "run-s build:tailwind build:remix",
     "build:remix": "cross-env NODE_ENV=production remix build",
     "build:tailwind": "cross-env NODE_ENV=production tailwindcss -o app/styles/tailwind.css",
-    "start": "dotenv cross-env NODE_ENV=production remix-serve server/build",
+    "start": "dotenv cross-env NODE_ENV=production remix-serve api/build",
     "dev": "run-s dev:tailwind dev:remix",
     "dev:remix": "dotenv cross-env NODE_ENV=development remix run",
     "dev:tailwind": "cross-env NODE_ENV=development tailwindcss -o app/styles/tailwind.css"
