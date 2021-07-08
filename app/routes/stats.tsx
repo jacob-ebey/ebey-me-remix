@@ -56,7 +56,10 @@ export default function Index() {
           return (
             <li key={post.id} className="mb-4 md:mb-2">
               <div className="inline-flex text-lg font-semibold md:p-2">
-                <h1 className="mr-4">{post.title}</h1>
+                <h1 className="mr-4">
+                  {post.published ? "Draft: " : ""}
+                  {post.title}
+                </h1>
                 <p id={id} className="font-light">
                   <CountAPI
                     method="get"
