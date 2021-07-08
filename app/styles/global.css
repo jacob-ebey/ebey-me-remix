@@ -1,0 +1,8 @@
+.prose code::before,
+.prose code::after {
+  display: none;
+}
+
+.prism-code {
+  overflow-x: auto !important;
+}
