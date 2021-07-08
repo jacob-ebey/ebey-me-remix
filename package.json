@@ -5,7 +5,7 @@
   "license": "",
   "scripts": {
     "postinstall": "npm run build",
-    "build": "run-s build:tailwind build:remix",
+    "build": "npm run build:tailwind && npm run build:remix",
     "build:remix": "cross-env NODE_ENV=production remix build",
     "build:tailwind": "cross-env NODE_ENV=production tailwindcss -o app/styles/tailwind.css",
     "start": "dotenv cross-env NODE_ENV=production remix-serve api/build",
