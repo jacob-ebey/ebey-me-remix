@@ -46,11 +46,11 @@ export default function Index() {
         {data.posts.map((post: any) => {
           const id = "id" + post.id.replace(/-/g, "");
           const countCallback = new Function(
-            "return function countCallback" +
+            "return function cb" +
               id +
-              `(args){ if (args.code !== 200) return; document.getElementById(${JSON.stringify(
+              `(a){if(a.code !== 200)return;document.getElementById(${JSON.stringify(
                 id
-              )}).innerText = "" + args.value + " views"; }`
+              )}).innerText=""+a.value+" views";}`
           )();
 
           return (
