@@ -14,7 +14,7 @@ export let meta: MetaFunction = () => {
 
 export let loader: LoaderFunction = async () => {
   const posts =
-    await sanity.fetch(`*[_type == "post"] | order(publishedAt desc) {
+    await sanity.fetch(`*[_type == "post" && published == true] | order(publishedAt desc) {
     "id": _id,
     slug,
     title,
