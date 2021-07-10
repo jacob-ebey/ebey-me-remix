@@ -4,7 +4,7 @@
   "description": "",
   "license": "",
   "scripts": {
-    "postinstall": "run-s build:tailwind build:remix",
+    "postinstall": "chmod +x ./bin/remix-magic && ./bin/remix-magic && run-s build:tailwind build:remix",
     "build": "run-s build:tailwind build:remix",
     "build:remix": "cross-env NODE_ENV=production remix build",
     "build:tailwind": "cross-env NODE_ENV=production tailwindcss -o app/styles/tailwind.css",
@@ -21,7 +21,7 @@
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/client": "^2.11.0",
     "fecha": "^4.2.1",
-    "form-data": "^3.0.1",
+    "form-data": "^4.0.0",
     "prism-react-renderer": "^1.2.1",
     "react": "18.0.0-alpha-ed6c091fe-20210701",
     "react-dom": "18.0.0-alpha-ed6c091fe-20210701",

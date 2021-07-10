@@ -1,11 +1,15 @@
-import type { MetaFunction, LoaderFunction } from "remix";
+import { MetaFunction, LoaderFunction, json } from "remix";
 import { useRouteData } from "remix";
+import { useLocation } from "react-router-dom";
 import { format, parse } from "fecha";
 
 import BlockContent from "../../components/block-content";
 import Container from "../../components/container";
 import CountAPI from "../../components/count-api";
 import sanity from "../../lib/sanity";
+import { withAuthToken } from "../../lib/request";
+
+import GithubLoginButton from "../../components/github-login-button";
 
 export let meta: MetaFunction = ({ data }) => {
   return {
@@ -14,32 +18,63 @@ export let meta: MetaFunction = ({ data }) => {
   };
 };
 
-export let loader: LoaderFunction = async ({ params: { slug } }) => {
-  const post = await sanity.fetch(
-    `*[_type == "post" && slug.current == $slug] {
-      "id": _id,
-      slug,
-      title,
-      description,
-      published,
-      publishedAt,
-      body,
-      categories []->{
-        _id,
-        title,
-      },
-    }[0]`,
-    { slug }
-  );
+export let loader: LoaderFunction = async ({ request, params: { slug } }) => {
+  return withAuthToken(request.headers.get("Cookie"))(async (authToken) => {
+    const url = new URL(
+      request.url.replace("://localhost/", "://localhost:3000/")
+    );
+    url.pathname = "";
+    url.search = "";
+    const basePath = url.toString();
 
-  return {
-    post: {
-      ...post,
-      publishedAt:
-        post.publishedAt &&
-        format(parse(post.publishedAt, "isoDateTime")!, "MMMM Do, YYYY"),
-    },
-  };
+    let post = await sanity.fetch(
+      `*[_type == "post" && slug.current == $slug] {
+        "id": _id,
+        slug,
+        title,
+        description,
+        paywall,
+        published,
+        publishedAt,
+        body,
+        categories []->{
+          _id,
+          title,
+        },
+      }[0]`,
+      { slug }
+    );
+
+    let authorized = false;
+    if (post.paywall && authToken) {
+      const res = await fetch(
+        "https://api.github.com/user/following/jacob-ebey",
+        {
+          headers: {
+            Accept: "application/vnd.github.v3+json",
+            Authorization: `token ${authToken}`,
+          },
+        }
+      );
+
+      authorized = res.ok;
+    }
+
+    if (post.paywall && !authorized) {
+      post.body = post.body.slice(0, 2);
+    }
+
+    return json({
+      basePath,
+      authorized,
+      post: {
+        ...post,
+        publishedAt:
+          post.publishedAt &&
+          format(parse(post.publishedAt, "isoDateTime")!, "MMMM Do, YYYY"),
+      },
+    });
+  });
 };
 
 function countCallback(r: any) {
@@ -50,12 +85,15 @@ function countCallback(r: any) {
 }
 
 export default function BlogPost() {
-  let data = useRouteData();
+  const data = useRouteData();
+  const location = useLocation();
+
+  const paywallBlock = !data.authorized && data.post.paywall;
 
   return (
     <>
       <Container>
-        <h1 className="mb-1 text-2xl lg:text-3xl font-semibold">
+        <h1 className="mb-1 text-2xl font-semibold lg:text-3xl">
           {!data.post.published ? <span>Draft: </span> : null}
           {data.post.title}
         </h1>
@@ -78,7 +116,33 @@ export default function BlogPost() {
         </div>
         <article className="prose-lg">
           <BlockContent blocks={data.post.body} />
+          {paywallBlock ? <p>....</p> : null}
         </article>
+        {paywallBlock ? (
+          <div className="relative py-3 sm:max-w-xl sm:mx-auto">
+            <div className="absolute inset-0 transform -skew-y-6 shadow-lg bg-gradient-to-r from-blue-300 to-blue-600 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+            <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+              <div className="max-w-md mx-auto">
+                <div>
+                  <h2 className="mb-4 text-2xl font-semibold lg:text-3xl">
+                    Oops, looks like you don't have access.
+                  </h2>
+                  <p className="mb-4 text-lg">
+                    If you wish to read this article, please login and make sure
+                    you follow me on Github.
+                  </p>
+                  <GithubLoginButton
+                    className="p-2 text-xs font-semibold text-white bg-black"
+                    basePath={data.basePath}
+                    redirect={location}
+                  >
+                    Login with Github
+                  </GithubLoginButton>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : null}
       </Container>
 
       <CountAPI

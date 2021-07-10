@@ -1,0 +1,14 @@
+#!/bin/bash
+set -euo pipefail
+
+# @remix-run/node and @remix-run/react have postinstall scripts that
+# mutate the remix/browser package. Subsequent yarn commands will
+# reset remix/browser.
+#
+# This script runs as a postinstall for our webapp project, so that
+# remix has the chance to fix itself up after we yarn add things.
+me=$(node -e 'console.log(require("path").resolve(process.argv[1]))' "$0")
+here=$(dirname "${me}")
+
+node "${here}"/../node_modules/@remix-run/node/scripts/postinstall.js
+node "${here}"/../node_modules/@remix-run/react/scripts/postinstall.js
