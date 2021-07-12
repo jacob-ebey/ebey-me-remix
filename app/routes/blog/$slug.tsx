@@ -12,9 +12,12 @@ import { withAuthToken } from "../../lib/request";
 import GitHubLoginButton from "../../components/github-login-button";
 
 export let meta: MetaFunction = ({ data }) => {
+  const title = `${data.post.title} | ebey.me`;
   return {
-    title: `${data.post.title} | ebey.me`,
+    title,
     description: data.post.description,
+    "og:title": title,
+    "og:description": data.post.description,
   };
 };
 
