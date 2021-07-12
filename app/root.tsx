@@ -16,19 +16,9 @@ export let links: LinksFunction = () => {
 
 export let loader: LoaderFunction = ({ request }) => {
   return withAuthToken(request.headers.get("Cookie"))((authToken) => {
-    return json(
-      {
-        loggedIn: !!authToken,
-      },
-      {
-        status: authToken ? 201 : 200,
-        headers: {
-          "Cache-Control": !!authToken
-            ? "no-cache"
-            : "s-maxage=1, stale-while-revalidate",
-        },
-      }
-    );
+    return json({
+      loggedIn: !!authToken,
+    });
   });
 };
 
