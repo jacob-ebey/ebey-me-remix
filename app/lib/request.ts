@@ -1,5 +1,4 @@
 import type { Response, Session } from "remix";
-import { redirect } from "remix";
 import { commitSession, getSession } from "./session";
 
 import { AUTH_TOKEN_SESSION_KEY } from "./auth";
@@ -11,7 +10,7 @@ export function withSession(cookieHeader: string | null, readOnly = false) {
     const session = await getSession(cookieHeader);
     const result = await fn(session);
     if (!readOnly) {
-      result.headers.append("Set-Cookie", await commitSession(session));
+      result.headers.set("Set-Cookie", await commitSession(session));
     }
     return result;
   };

@@ -5,7 +5,7 @@ const { getSession, commitSession, destroySession } =
     // This is either a Cookie (or a set of CookieOptions) that
     // describe the session cookie to use.
     cookie: {
-      name: "__session",
+      name: "_vercel_no_cache",
       secrets: [process.env.SESSION_SECRET as string],
       sameSite: "lax",
       httpOnly: true,

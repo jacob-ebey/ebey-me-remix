@@ -22,6 +22,11 @@ export let loader: LoaderFunction = ({ request }) => {
       },
       {
         status: authToken ? 201 : 200,
+        headers: {
+          "Cache-Control": !!authToken
+            ? "no-cache"
+            : "s-maxage=1, stale-while-revalidate",
+        },
       }
     );
   });

@@ -2,16 +2,20 @@ import type { ActionFunction, LoaderFunction } from "remix";
 import { json, redirect, useRouteData } from "remix";
 import FormData from "form-data";
 
-import { saveAuthToken, removeAuthToken } from "../lib/auth";
+import { saveAuthToken } from "../lib/auth";
 import { withSession } from "../lib/request";
+import { destroySession } from "../lib/session";
 
-export const action: ActionFunction = async ({ request, params }) => {
-  return withSession(request.headers.get("Cookie"))((session) => {
-    removeAuthToken(session);
+export const action: ActionFunction = ({ request, params }) => {
+  return withSession(
+    request.headers.get("Cookie"),
+    true
+  )(async (session) => {
     const redirectTo = new URL(request.url).searchParams.get("redirect");
     return redirect(redirectTo || "/", {
       headers: {
         "Cache-Control": "no-cache",
+        "Set-Cookie": await destroySession(session),
       },
     });
   });
@@ -77,6 +81,7 @@ export const loader: LoaderFunction = async ({ request }) => {
       return redirect(redirectPath || "/", {
         headers: {
           "Cache-Control": "no-cache",
+          "Set-Cookie": "_vercel_no_cache=1",
         },
       });
     }
