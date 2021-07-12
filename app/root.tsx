@@ -1,8 +1,9 @@
-import type { LinksFunction } from "remix";
-import { Meta, Links, LiveReload } from "remix";
+import type { LinksFunction, LoaderFunction } from "remix";
+import { json, Meta, Links, LiveReload, useRouteData } from "remix";
 import { Outlet } from "react-router-dom";
 
 import Header from "./components/header";
+import { withAuthToken } from "./lib/request";
 import stylesUrl from "./styles/global.css";
 import tailwindUrl from "./styles/tailwind.css";
 
@@ -13,7 +14,26 @@ export let links: LinksFunction = () => {
   ];
 };
 
-function Document({ children }: { children: React.ReactNode }) {
+export let loader: LoaderFunction = ({ request }) => {
+  return withAuthToken(request.headers.get("Cookie"))((authToken) => {
+    return json(
+      {
+        loggedIn: !!authToken,
+      },
+      {
+        status: authToken ? 201 : 200,
+      }
+    );
+  });
+};
+
+function Document({
+  children,
+  loggedIn,
+}: {
+  children: React.ReactNode;
+  loggedIn: boolean;
+}) {
   return (
     <html lang="en">
       <head>
@@ -24,7 +44,7 @@ function Document({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <Header />
+        <Header loggedIn={loggedIn} />
 
         {children}
 
@@ -35,8 +55,10 @@ function Document({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const { loggedIn } = useRouteData();
+
   return (
-    <Document>
+    <Document loggedIn={loggedIn}>
       <Outlet />
     </Document>
   );
@@ -44,7 +66,7 @@ export default function App() {
 
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
-    <Document>
+    <Document loggedIn={false}>
       <h1>App Error</h1>
       <pre>{error.message}</pre>
       <p>

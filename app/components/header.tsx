@@ -1,6 +1,10 @@
-import { Link } from "react-router-dom";
+import { Form } from "remix";
+import { Link, useHref, useLocation } from "react-router-dom";
 
-export default function Header() {
+export default function Header({ loggedIn }: { loggedIn: boolean }) {
+  const location = useLocation();
+  const redirect = useHref(location);
+
   return (
     <header className="flex flex-wrap items-center max-w-2xl px-4 py-4 mx-auto mb-4">
       <Link
@@ -27,6 +31,16 @@ export default function Header() {
         >
           Follow Me
         </a>
+        {loggedIn ? (
+          <Form action={`/login?redirect=${redirect}`} method="post">
+            <button
+              type="submit"
+              className="p-2 ml-2 text-xs font-semibold text-white bg-black"
+            >
+              Logout
+            </button>
+          </Form>
+        ) : null}
       </nav>
     </header>
   );

@@ -8,6 +8,7 @@ const { getSession, commitSession, destroySession } =
       name: "__session",
       secrets: [process.env.SESSION_SECRET as string],
       sameSite: "lax",
+      httpOnly: true,
     },
   });
 

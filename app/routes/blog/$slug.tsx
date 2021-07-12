@@ -67,6 +67,7 @@ export let loader: LoaderFunction = async ({ request, params: { slug } }) => {
     return json({
       basePath,
       authorized,
+      loggedIn: !!authToken,
       post: {
         ...post,
         publishedAt:
@@ -131,13 +132,21 @@ export default function BlogPost() {
                     If you wish to read this article, please login and make sure
                     you follow me on Github.
                   </p>
-                  <GithubLoginButton
-                    className="p-2 text-xs font-semibold text-white bg-black"
-                    basePath={data.basePath}
-                    redirect={location}
-                  >
-                    Login with Github
-                  </GithubLoginButton>
+                  {data.loggedIn ? (
+                    <p>
+                      Follow me{" "}
+                      <a href="https://github.com/jacob-ebey/">@jacob-ebey</a>{" "}
+                      on Github.
+                    </p>
+                  ) : (
+                    <GithubLoginButton
+                      className="p-2 text-xs font-semibold text-white bg-black"
+                      basePath={data.basePath}
+                      redirect={location}
+                    >
+                      Login with Github
+                    </GithubLoginButton>
+                  )}
                 </div>
               </div>
             </div>

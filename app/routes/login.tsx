@@ -1,12 +1,21 @@
-import { json, LoaderFunction } from "remix";
-import { useRouteData } from "remix";
-import { redirect } from "remix";
+import type { ActionFunction, LoaderFunction } from "remix";
+import { json, redirect, useRouteData } from "remix";
 import FormData from "form-data";
 
-import { saveAuthToken } from "../lib/auth";
+import { saveAuthToken, removeAuthToken } from "../lib/auth";
 import { withSession } from "../lib/request";
 
-const githubClientId = "c2749d34301434b92a1a";
+export const action: ActionFunction = async ({ request, params }) => {
+  return withSession(request.headers.get("Cookie"))((session) => {
+    removeAuthToken(session);
+    const redirectTo = new URL(request.url).searchParams.get("redirect");
+    return redirect(redirectTo || "/", {
+      headers: {
+        "Cache-Control": "no-cache",
+      },
+    });
+  });
+};
 
 export const loader: LoaderFunction = async ({ request }) => {
   return withSession(request.headers.get("Cookie"))(async (session) => {
@@ -23,7 +32,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
     if (code) {
       const data = new FormData();
-      data.append("client_id", githubClientId);
+      data.append("client_id", process.env.GITHUB_CLIENT_ID);
       data.append("client_secret", process.env.GITHUB_CLIENT_SECRET);
       data.append("code", code);
       data.append("redirect_uri", basePath + "login");
@@ -51,16 +60,23 @@ export const loader: LoaderFunction = async ({ request }) => {
         });
 
       if (error || !accessToken) {
-        return json({
-          error: "Error logging in",
-        });
+        return json(
+          {
+            error: "Error logging in",
+          },
+          {
+            headers: {
+              "Cache-Control": "no-cache",
+            },
+          }
+        );
       }
 
       saveAuthToken(session, accessToken);
 
       return redirect(redirectPath || "/", {
         headers: {
-          "Set-Cookie": "_vercel_no_cache=1; HttpOnly",
+          "Cache-Control": "no-cache",
         },
       });
     }
