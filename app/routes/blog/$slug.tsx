@@ -9,7 +9,7 @@ import CountAPI from "../../components/count-api";
 import sanity from "../../lib/sanity";
 import { withAuthToken } from "../../lib/request";
 
-import GithubLoginButton from "../../components/github-login-button";
+import GitHubLoginButton from "../../components/github-login-button";
 
 export let meta: MetaFunction = ({ data }) => {
   return {
@@ -130,22 +130,22 @@ export default function BlogPost() {
                   </h2>
                   <p className="mb-4 text-lg">
                     If you wish to read this article, please login and make sure
-                    you follow me on Github.
+                    you follow me on GitHub.
                   </p>
                   {data.loggedIn ? (
                     <p>
                       Follow me{" "}
                       <a href="https://github.com/jacob-ebey/">@jacob-ebey</a>{" "}
-                      on Github.
+                      on GitHub.
                     </p>
                   ) : (
-                    <GithubLoginButton
+                    <GitHubLoginButton
                       className="p-2 text-xs font-semibold text-white bg-black"
                       basePath={data.basePath}
                       redirect={location}
                     >
-                      Login with Github
-                    </GithubLoginButton>
+                      Login with GitHub
+                    </GitHubLoginButton>
                   )}
                 </div>
               </div>

@@ -1,7 +1,7 @@
 import type { To } from "history";
 import { useHref } from "react-router-dom";
 
-export default function GithubLoginButton({
+export default function GitHubLoginButton({
   basePath,
   redirect,
   ...props
