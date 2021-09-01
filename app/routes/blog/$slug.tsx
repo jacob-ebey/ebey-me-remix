@@ -3,13 +3,15 @@ import { useRouteData } from "remix";
 import { useLocation } from "react-router-dom";
 import { format, parse } from "fecha";
 
-import BlockContent from "../../components/block-content";
-import Container from "../../components/container";
-import CountAPI from "../../components/count-api";
-import sanity from "../../lib/sanity";
-import { withAuthToken } from "../../lib/request";
+import BlockContent from "~/components/block-content";
+import Container from "~/components/container";
+import CountAPI from "~/components/count-api";
+import sanity from "~/lib/sanity";
+import { withAuthToken } from "~/lib/request";
 
-import GitHubLoginButton from "../../components/github-login-button";
+import GitHubLoginButton from "~/components/github-login-button";
+
+import jacobImage from "~/images/jacob.jpg";
 
 export let meta: MetaFunction = ({ data }) => {
   const title = `${data.post.title} | ebey.me`;
@@ -110,7 +112,7 @@ export default function BlogPost() {
             <img
               alt=""
               className="w-6 h-6 mr-2 rounded-full"
-              src="https://pbs.twimg.com/profile_images/1253463555388530689/TWhkn5IZ_x96.jpg"
+              src={jacobImage}
             />
             <span>ebey_jacob</span>
           </a>
