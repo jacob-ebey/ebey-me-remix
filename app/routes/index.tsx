@@ -3,9 +3,9 @@ import { useRouteData } from "remix";
 import { Link } from "react-router-dom";
 import { format, parse } from "fecha";
 
-import sanity from "../lib/sanity";
-import Container from "../components/container";
-import CountAPI from "../components/count-api";
+import sanity from "~/lib/sanity";
+import Container from "~/components/container";
+import CountAPI from "~/components/count-api";
 
 export let meta: MetaFunction = () => {
   return {

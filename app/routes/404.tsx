@@ -1,5 +1,5 @@
 import type { MetaFunction } from "remix";
-import Container from "../components/container";
+import Container from "~/components/container";
 
 export let meta: MetaFunction = () => {
   return { title: "Ain't nothing here" };

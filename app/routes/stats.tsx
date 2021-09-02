@@ -1,9 +1,9 @@
 import type { MetaFunction, LoaderFunction } from "remix";
 import { useRouteData } from "remix";
 
-import sanity from "../lib/sanity";
-import Container from "../components/container";
-import CountAPI from "../components/count-api";
+import sanity from "~/lib/sanity";
+import Container from "~/components/container";
+import CountAPI from "~/components/count-api";
 
 export let meta: MetaFunction = () => {
   return {

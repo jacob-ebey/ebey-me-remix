@@ -2,9 +2,9 @@ import type { ActionFunction, LoaderFunction } from "remix";
 import { json, redirect, useRouteData } from "remix";
 import FormData from "form-data";
 
-import { saveAuthToken } from "../lib/auth";
-import { withSession } from "../lib/request";
-import { destroySession } from "../lib/session";
+import { saveAuthToken } from "~/lib/auth";
+import { withSession } from "~/lib/request";
+import { destroySession } from "~/lib/session";
 
 export const action: ActionFunction = ({ request, params }) => {
   return withSession(
