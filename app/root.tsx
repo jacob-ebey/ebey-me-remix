@@ -1,7 +1,8 @@
 import type { LinksFunction, LoaderFunction } from "remix";
-import { json, Meta, Links, LiveReload, useRouteData } from "remix";
+import { json, Meta, Links, LiveReload, useCatch, useLoaderData } from "remix";
 import { Outlet } from "react-router-dom";
 
+import Container from "./components/container";
 import Header from "./components/header";
 import { withAuthToken } from "./lib/request";
 import stylesUrl from "./styles/global.css";
@@ -25,13 +26,16 @@ export let loader: LoaderFunction = ({ request }) => {
 function Document({
   children,
   loggedIn,
+  title,
 }: {
   children: React.ReactNode;
   loggedIn: boolean;
+  title?: string;
 }) {
   return (
     <html lang="en">
       <head>
+        {title ? <title>{title}</title> : null}
         <meta charSet="utf-8" />
         <link
           rel="apple-touch-icon"
@@ -67,7 +71,7 @@ function Document({
 }
 
 export default function App() {
-  const { loggedIn } = useRouteData();
+  const { loggedIn } = useLoaderData();
 
   return (
     <Document loggedIn={loggedIn}>
@@ -76,15 +80,28 @@ export default function App() {
   );
 }
 
-export function ErrorBoundary({ error }: { error: Error }) {
+export function CatchBoundary() {
+  let { status, statusText } = useCatch();
+
   return (
-    <Document loggedIn={false}>
-      <h1>App Error</h1>
-      <pre>{error.message}</pre>
-      <p>
-        Replace this UI with what you want users to see when your app throws
-        uncaught errors.
-      </p>
+    <Document loggedIn={false} title={statusText}>
+      <Container>
+        <h1 className="text-2xl lg:text-3xl">
+          {status} {statusText}
+        </h1>
+      </Container>
+    </Document>
+  );
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  console.error(error);
+
+  return (
+    <Document loggedIn={false} title="Oh no!">
+      <Container>
+        <h1>Something went terribly wrong!</h1>
+      </Container>
     </Document>
   );
 }

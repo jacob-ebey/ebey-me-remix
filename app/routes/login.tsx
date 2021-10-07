@@ -86,7 +86,9 @@ export const loader: LoaderFunction = async ({ request }) => {
       });
     }
 
-    return json({});
+    return json({
+      error: "Something went wrong when logging in. Please try again.",
+    });
   });
 };
 
