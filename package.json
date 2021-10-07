@@ -14,10 +14,8 @@
     "dev:tailwind": "cross-env NODE_ENV=development tailwindcss -o app/styles/tailwind.css"
   },
   "dependencies": {
-    "@remix-run/node": "0.18.0",
-    "@remix-run/react": "0.18.0",
-    "@remix-run/serve": "0.18.0",
-    "@remix-run/vercel": "0.18.0",
+    "@remix-run/react": "0.19.0-pre.0",
+    "@remix-run/vercel": "0.19.0-pre.0",
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/client": "^2.11.0",
     "fecha": "^4.2.1",
@@ -25,11 +23,12 @@
     "prism-react-renderer": "^1.2.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-router-dom": "^6.0.0-beta.2",
-    "remix": "0.18.0"
+    "react-router-dom": "6.0.0-beta.6",
+    "remix": "0.19.0-pre.0"
   },
   "devDependencies": {
-    "@remix-run/dev": "0.18.0",
+    "@remix-run/dev": "0.19.0-pre.0",
+    "@remix-run/serve": "0.19.0-pre.0",
     "@tailwindcss/typography": "^0.4.1",
     "@types/react": "^17.0.4",
     "@types/react-dom": "^17.0.4",

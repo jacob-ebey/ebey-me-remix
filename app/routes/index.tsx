@@ -1,5 +1,5 @@
 import type { MetaFunction, LoaderFunction } from "remix";
-import { useRouteData } from "remix";
+import { useLoaderData } from "remix";
 import { Link } from "react-router-dom";
 import { format, parse } from "fecha";
 
@@ -33,7 +33,7 @@ export let loader: LoaderFunction = async () => {
 };
 
 export default function Index() {
-  let data = useRouteData();
+  let data = useLoaderData();
 
   return (
     <>

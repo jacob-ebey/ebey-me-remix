@@ -3,5 +3,4 @@ module.exports = {
   browserBuildDirectory: "public/build",
   publicPath: "/build/",
   serverBuildDirectory: "api/build",
-  devServerPort: 3000
 };

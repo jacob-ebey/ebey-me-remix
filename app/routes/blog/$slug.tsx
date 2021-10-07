@@ -1,5 +1,4 @@
-import { MetaFunction, LoaderFunction, json } from "remix";
-import { useRouteData } from "remix";
+import { MetaFunction, LoaderFunction, json, useLoaderData } from "remix";
 import { useLocation } from "react-router-dom";
 import { format, parse } from "fecha";
 
@@ -14,6 +13,10 @@ import GitHubLoginButton from "~/components/github-login-button";
 import jacobImage from "~/images/jacob.jpg";
 
 export let meta: MetaFunction = ({ data }) => {
+  if (!data) {
+    return {};
+  }
+
   const title = `${data.post.title} | ebey.me`;
   return {
     title,
@@ -49,6 +52,10 @@ export let loader: LoaderFunction = async ({ request, params: { slug } }) => {
       }[0]`,
       { slug }
     );
+
+    if (!post) {
+      throw json(null, { status: 404 });
+    }
 
     let authorized = false;
     if (post.paywall && authToken) {
@@ -91,7 +98,7 @@ function countCallback(r: any) {
 }
 
 export default function BlogPost() {
-  const data = useRouteData();
+  const data = useLoaderData();
   const location = useLocation();
 
   const paywallBlock = !data.authorized && data.post.paywall;
