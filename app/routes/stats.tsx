@@ -1,5 +1,5 @@
 import type { MetaFunction, LoaderFunction } from "remix";
-import { useRouteData } from "remix";
+import { useLoaderData } from "remix";
 
 import sanity from "~/lib/sanity";
 import Container from "~/components/container";
@@ -29,7 +29,7 @@ function homeCountCallback(args: any) {
 }
 
 export default function Index() {
-  let data = useRouteData();
+  let data = useLoaderData();
 
   return (
     <Container>

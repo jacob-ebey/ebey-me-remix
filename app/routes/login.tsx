@@ -1,5 +1,5 @@
 import type { ActionFunction, LoaderFunction } from "remix";
-import { json, redirect, useRouteData } from "remix";
+import { json, redirect, useLoaderData } from "remix";
 import FormData from "form-data";
 
 import { saveAuthToken } from "~/lib/auth";
@@ -86,12 +86,14 @@ export const loader: LoaderFunction = async ({ request }) => {
       });
     }
 
-    return json({});
+    return json({
+      error: "Something went wrong when logging in. Please try again.",
+    });
   });
 };
 
 export default function Login() {
-  const data = useRouteData();
+  const data = useLoaderData();
 
   return <h1>{data.error}</h1>;
 }
