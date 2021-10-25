@@ -28,8 +28,8 @@ export let loader: LoaderFunction = async () => {
     }[0...50]`)
   ).map((event: any) => ({
     ...event,
-    date:
-      event.date && format(parse(event.date, "isoDateTime")!, "MMMM Do, YYYY"),
+    date: "October 28th, 2021 6:00PM"
+      // event.date && format(parse(event.date, "isoDateTime")!, "MMMM Do, YYYY"),
   }));
 
   return { events };

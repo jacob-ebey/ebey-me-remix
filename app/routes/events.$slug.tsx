@@ -50,9 +50,9 @@ export let loader: LoaderFunction = async ({ request, params: { slug } }) => {
     shareLink,
     event: {
       ...event,
-      date:
-        event.date &&
-        format(parse(event.date, "isoDateTime")!, "MMMM Do, YYYY h:mmA"),
+      date: "October 28th, 2021 6:00PM"
+        // event.date &&
+        // format(parse(event.date, "isoDateTime")!, "MMMM Do, YYYY h:mmA"),
     },
   });
 };
