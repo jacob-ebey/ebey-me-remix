@@ -10,7 +10,7 @@ const Container: FC<ContainerProps> = ({
   tag: Tag = "main",
   className,
   ...props
-}) => <Tag {...props} className={cn("max-w-2xl px-4 mx-auto")} />;
+}) => <Tag {...props} className={cn("max-w-2xl px-4 mx-auto mb-6")} />;
 
 export default Container;
 

@@ -19,6 +19,12 @@ export default function Header({ loggedIn }: { loggedIn: boolean }) {
       </Link>
 
       <nav className="inline-flex items-center justify-end flex-grow">
+        <Link
+          className="p-2 mr-2 text-xs font-semibold text-gray-700"
+          to="/events"
+        >
+          Events
+        </Link>
         <a
           className="p-2 mr-2 text-xs font-semibold text-gray-700"
           href="https://github.com/jacob-ebey/ebey-me-remix"
