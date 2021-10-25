@@ -31,6 +31,7 @@ export let loader: LoaderFunction = async ({ request, params: { slug } }) => {
             slug,
             title,
             date,
+            time,
             published,
             body,
             location->{
@@ -48,12 +49,7 @@ export let loader: LoaderFunction = async ({ request, params: { slug } }) => {
 
   return json({
     shareLink,
-    event: {
-      ...event,
-      date: "October 28th, 2021 6:00PM"
-        // event.date &&
-        // format(parse(event.date, "isoDateTime")!, "MMMM Do, YYYY h:mmA"),
-    },
+    event,
   });
 };
 
@@ -76,18 +72,31 @@ export default function BlogPost() {
           <section>
             <BlockContent blocks={data.event.body} />
           </section>
+        </article>
 
-          <h2>Details</h2>
-          <p>
-            {data.event.date} @{" "}
-            <a
-              target="_blank"
-              className="underline font-semibold"
-              href={data.event.location.link}
-            >
-              {data.event.location.name}
-            </a>
-          </p>
+        <h2 className="text-2xl font-semibold my-6">Details</h2>
+        <div className="md:flex justify-between">
+          <div>
+            <h3 className="text-lg font-semibold">Time</h3>
+            <p>
+              {data.event.date} @ {data.event.time}
+            </p>
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold">Location</h3>
+            <p>
+              <a
+                target="_blank"
+                className="underline font-semibold"
+                href={data.event.location.link}
+              >
+                {data.event.location.name}
+              </a>
+            </p>
+          </div>
+        </div>
+
+        <div className="prose-lg my-6">
           <p>
             <a
               target="_blank"
@@ -99,7 +108,7 @@ export default function BlogPost() {
               Tweet me to let me know your coming!
             </a>
           </p>
-        </article>
+        </div>
       </Container>
 
       <CountAPI
