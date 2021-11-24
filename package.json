@@ -4,18 +4,18 @@
   "description": "",
   "license": "",
   "scripts": {
-    "postinstall": "remix setup && run-s build:tailwind build:remix",
+    "postinstall": "remix setup node && run-s build:tailwind build:remix",
     "build": "run-s build:tailwind build:remix",
     "build:remix": "cross-env NODE_ENV=production remix build",
     "build:tailwind": "cross-env NODE_ENV=production tailwindcss -o app/styles/tailwind.css",
     "start": "dotenv cross-env NODE_ENV=production remix-serve api/build",
     "dev": "run-s dev:tailwind dev:remix",
-    "dev:remix": "dotenv cross-env NODE_ENV=development remix run",
+    "dev:remix": "dotenv cross-env NODE_ENV=development remix dev",
     "dev:tailwind": "cross-env NODE_ENV=development tailwindcss -o app/styles/tailwind.css"
   },
   "dependencies": {
-    "@remix-run/react": "0.19.0-pre.0",
-    "@remix-run/vercel": "0.19.0-pre.0",
+    "@remix-run/react": "^1.0.5",
+    "@remix-run/vercel": "^1.0.5",
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/client": "^2.11.0",
     "fecha": "^4.2.1",
@@ -23,12 +23,11 @@
     "prism-react-renderer": "^1.2.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-router-dom": "6.0.0-beta.6",
-    "remix": "0.19.0-pre.0"
+    "remix": "^1.0.5"
   },
   "devDependencies": {
-    "@remix-run/dev": "0.19.0-pre.0",
-    "@remix-run/serve": "0.19.0-pre.0",
+    "@remix-run/dev": "^1.0.5",
+    "@remix-run/serve": "^1.0.5",
     "@tailwindcss/typography": "^0.4.1",
     "@types/react": "^17.0.4",
     "@types/react-dom": "^17.0.4",

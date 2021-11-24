@@ -1,7 +1,5 @@
 import type { MetaFunction, LoaderFunction } from "remix";
-import { useLoaderData } from "remix";
-import { Link } from "react-router-dom";
-import { format, parse } from "fecha";
+import { Link, useLoaderData } from "remix";
 
 import sanity from "~/lib/sanity";
 import Container from "~/components/container";

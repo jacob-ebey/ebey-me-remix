@@ -1,6 +1,4 @@
-// @ts-ignore
-import { createRoot } from "react-dom";
+import { hydrate } from "react-dom";
 import { RemixBrowser } from "remix";
 
-const root = createRoot(document, { hydrate: true });
-root.render(<RemixBrowser />);
+hydrate(<RemixBrowser />, document);

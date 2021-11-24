@@ -1,14 +1,16 @@
-import { MetaFunction, LoaderFunction, json, useLoaderData } from "remix";
-import { format, parse } from "fecha";
+import type { HtmlMetaDescriptor, MetaFunction, LoaderFunction } from "remix";
+import { json, useLoaderData } from "remix";
 
 import BlockContent from "~/components/block-content";
 import Container from "~/components/container";
 import CountAPI from "~/components/count-api";
 import sanity from "~/lib/sanity";
 
-export let meta: MetaFunction = ({ data }) => {
+export let meta: MetaFunction = ({ data }): HtmlMetaDescriptor => {
   if (!data) {
-    return {};
+    return {
+      title: "Uh oh",
+    };
   }
 
   const title = `${data.event.title} | ebey.me`;

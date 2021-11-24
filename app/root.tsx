@@ -1,6 +1,15 @@
 import type { LinksFunction, LoaderFunction } from "remix";
-import { json, Meta, Links, LiveReload, useCatch, useLoaderData } from "remix";
-import { Outlet } from "react-router-dom";
+import {
+  json,
+  Meta,
+  Links,
+  LiveReload,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useCatch,
+  useLoaderData,
+} from "remix";
 
 import Container from "./components/container";
 import Header from "./components/header";
@@ -64,6 +73,8 @@ function Document({
 
         {children}
 
+        <ScrollRestoration />
+        <Scripts />
         {process.env.NODE_ENV === "development" && <LiveReload />}
       </body>
     </html>
