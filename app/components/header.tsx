@@ -1,5 +1,4 @@
-import { Form } from "remix";
-import { Link, useHref, useLocation } from "react-router-dom";
+import { Form, Link, useHref, useLocation } from "remix";
 
 export default function Header({ loggedIn }: { loggedIn: boolean }) {
   const location = useLocation();
@@ -38,7 +37,11 @@ export default function Header({ loggedIn }: { loggedIn: boolean }) {
           Follow Me
         </a>
         {loggedIn ? (
-          <Form action={`/login?redirect=${redirect}`} method="post">
+          <Form
+            action={`/login?redirect=${redirect}`}
+            method="post"
+            className="inline-block"
+          >
             <button
               type="submit"
               className="p-2 ml-2 text-xs font-semibold text-white bg-black"

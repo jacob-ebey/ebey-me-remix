@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-// @ts-ignore
+import { Link } from "remix";
+// @ts-expect-error
 import SanityBlockContent from "@sanity/block-content-to-react";
 import Highlight, { defaultProps } from "prism-react-renderer";
 import prismTheme from "prism-react-renderer/themes/vsLight";

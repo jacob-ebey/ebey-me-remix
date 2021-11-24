@@ -1,6 +1,15 @@
 import type { LinksFunction, LoaderFunction } from "remix";
-import { json, Meta, Links, LiveReload, useCatch, useLoaderData } from "remix";
-import { Outlet } from "react-router-dom";
+import {
+  json,
+  Meta,
+  Links,
+  LiveReload,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useCatch,
+  useLoaderData,
+} from "remix";
 
 import Container from "./components/container";
 import Header from "./components/header";
@@ -19,6 +28,9 @@ export let loader: LoaderFunction = ({ request }) => {
   return withAuthToken(request.headers.get("Cookie"))((authToken) => {
     return json({
       loggedIn: !!authToken,
+      env: JSON.stringify({
+        GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
+      }),
     });
   });
 };
@@ -27,10 +39,12 @@ function Document({
   children,
   loggedIn,
   title,
+  env,
 }: {
   children: React.ReactNode;
   loggedIn: boolean;
   title?: string;
+  env?: string;
 }) {
   return (
     <html lang="en">
@@ -64,6 +78,14 @@ function Document({
 
         {children}
 
+        <ScrollRestoration />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.process={env:${env || "{}"}};`,
+          }}
+        />
+
+        <Scripts />
         {process.env.NODE_ENV === "development" && <LiveReload />}
       </body>
     </html>
@@ -71,10 +93,10 @@ function Document({
 }
 
 export default function App() {
-  const { loggedIn } = useLoaderData();
+  const { loggedIn, env } = useLoaderData();
 
   return (
-    <Document loggedIn={loggedIn}>
+    <Document loggedIn={loggedIn} env={env}>
       <Outlet />
     </Document>
   );

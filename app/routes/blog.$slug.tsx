@@ -1,5 +1,5 @@
-import { MetaFunction, LoaderFunction, json, useLoaderData } from "remix";
-import { useLocation } from "react-router-dom";
+import type { HtmlMetaDescriptor, MetaFunction, LoaderFunction } from "remix";
+import { json, useLoaderData, useLocation } from "remix";
 import { format, parse } from "fecha";
 
 import BlockContent from "~/components/block-content";
@@ -12,9 +12,11 @@ import GitHubLoginButton from "~/components/github-login-button";
 
 import jacobImage from "~/images/jacob.jpg";
 
-export let meta: MetaFunction = ({ data }) => {
+export let meta: MetaFunction = ({ data }): HtmlMetaDescriptor => {
   if (!data) {
-    return {};
+    return {
+      title: "Uh oh",
+    };
   }
 
   const title = `${data.post.title} | ebey.me`;
@@ -59,7 +61,14 @@ export let loader: LoaderFunction = async ({ request, params: { slug } }) => {
 
     let authorized = false;
     if (post.paywall && authToken) {
-      const res = await fetch(
+      const userPromise = fetch("https://api.github.com/user", {
+        headers: {
+          Accept: "application/vnd.github.v3+json",
+          Authorization: `token ${authToken}`,
+        },
+      });
+
+      const followingRes = await fetch(
         "https://api.github.com/user/following/jacob-ebey",
         {
           headers: {
@@ -69,7 +78,13 @@ export let loader: LoaderFunction = async ({ request, params: { slug } }) => {
         }
       );
 
-      authorized = res.ok;
+      authorized = followingRes.ok;
+
+      if (!authorized) {
+        let userRes = await userPromise;
+        let userJson = await userRes.json();
+        authorized = userJson.login === "jacob-ebey";
+      }
     }
 
     if (post.paywall && !authorized) {
