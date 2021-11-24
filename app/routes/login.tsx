@@ -6,7 +6,7 @@ import { saveAuthToken } from "~/lib/auth";
 import { withSession } from "~/lib/request";
 import { destroySession } from "~/lib/session";
 
-export const action: ActionFunction = ({ request, params }) => {
+export const action: ActionFunction = ({ request }) => {
   return withSession(
     request.headers.get("Cookie"),
     true
