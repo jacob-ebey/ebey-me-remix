@@ -5,8 +5,8 @@ import {
   Links,
   LiveReload,
   Outlet,
-  Scripts,
-  ScrollRestoration,
+  // Scripts,
+  // ScrollRestoration,
   useCatch,
   useLoaderData,
 } from "remix";
@@ -78,14 +78,13 @@ function Document({
 
         {children}
 
-        <ScrollRestoration />
+        {/* <ScrollRestoration />
         <script
           dangerouslySetInnerHTML={{
             __html: `window.process={env:${env || "{}"}};`,
           }}
         />
-
-        <Scripts />
+        <Scripts /> */}
         {process.env.NODE_ENV === "development" && <LiveReload />}
       </body>
     </html>
