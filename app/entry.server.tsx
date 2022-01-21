@@ -17,6 +17,7 @@ export default async function handleRequest(
 
   let headers = new Headers(responseHeaders);
   headers.set("Content-Type", "text/html");
+  headers.set("Cache-Control", "s-maxage=1, stale-while-revalidate=59");
 
   return new Response(markup, {
     status: responseStatusCode,
